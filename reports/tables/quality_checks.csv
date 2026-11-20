@@ -1,0 +1,21 @@
+rule,severity,failures
+orders: order_id is unique,hard,0
+customers: customer_id is unique,hard,0
+"items: (order_id, order_item_id) is unique",hard,0
+orders: every order has a customer,hard,0
+items: every item belongs to a known order,hard,0
+items: every item has a known product and seller,hard,0
+items: price > 0 and freight >= 0,hard,0
+reviews: score between 1 and 5,hard,0
+orders: delivered status without delivery date,soft,8
+orders: delivered before purchase,soft,0
+orders: handed to carrier before approval,soft,1359
+orders: no items (mostly canceled/unavailable),soft,775
+orders: no payment record,soft,1
+payments: total differs from items + freight by > $1,soft,312
+reviews: orders with more than one review (latest kept),soft,547
+reviews: review_id reused across orders,soft,789
+products: missing category (set to unknown),soft,610
+geolocation: points outside Brazil (dropped),soft,42
+customers: zip prefix with no geolocation,soft,280
+customers: people with more than one customer_id,soft,2997

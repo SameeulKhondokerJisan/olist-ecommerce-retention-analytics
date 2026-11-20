@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "v05_f99cf34a",
+  "position": {
+    "x": 10,
+    "y": 110,
+    "z": 5000,
+    "width": 760,
+    "height": 600,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "cohort_retention"
+                    }
+                  },
+                  "Property": "cohort_month"
+                }
+              },
+              "queryRef": "cohort_retention.cohort_month",
+              "nativeQueryRef": "cohort_month"
+            }
+          ]
+        },
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "cohort_retention"
+                    }
+                  },
+                  "Property": "months_since_first"
+                }
+              },
+              "queryRef": "cohort_retention.months_since_first",
+              "nativeQueryRef": "months_since_first"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "cohort_retention"
+                    }
+                  },
+                  "Property": "Cohort retention"
+                }
+              },
+              "queryRef": "cohort_retention.Cohort retention",
+              "nativeQueryRef": "Cohort retention"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Monthly cohort retention (share ordering again)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

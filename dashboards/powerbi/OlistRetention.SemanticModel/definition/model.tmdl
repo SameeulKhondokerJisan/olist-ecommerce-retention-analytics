@@ -1,0 +1,15 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DataFolder", "fact_orders", "dim_customer", "dim_date", "cohort_retention", "seller_scorecard"]
+
+ref table fact_orders
+ref table dim_customer
+ref table dim_date
+ref table cohort_retention
+ref table seller_scorecard

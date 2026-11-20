@@ -1,0 +1,149 @@
+table fact_orders
+
+	measure 'GMV (R$)' = SUM(fact_orders[order_value])
+		formatString: #,0
+		displayFolder: Sales
+
+	measure Orders = COUNTROWS(fact_orders)
+		formatString: #,0
+		displayFolder: Sales
+
+	measure Customers = DISTINCTCOUNT(fact_orders[customer_unique_id])
+		formatString: #,0
+		displayFolder: Sales
+
+	measure 'Avg order value (R$)' = DIVIDE([GMV (R$)], [Orders])
+		formatString: #,0.00
+		displayFolder: Sales
+
+	measure 'GMV MoM %' = VAR cur = [GMV (R$)] VAR prev = CALCULATE([GMV (R$)], DATEADD(dim_date[date], -1, MONTH)) RETURN DIVIDE(cur - prev, prev)
+		formatString: 0.0%
+		displayFolder: Sales
+
+	measure 'Late delivery rate' = DIVIDE(SUM(fact_orders[is_late]), COUNT(fact_orders[is_late]))
+		formatString: 0.0%
+		displayFolder: Delivery
+
+	measure 'Avg delivery days' = AVERAGE(fact_orders[delivery_days])
+		formatString: 0.0
+		displayFolder: Delivery
+
+	measure 'Avg review' = AVERAGE(fact_orders[review_score])
+		formatString: 0.00
+		displayFolder: Experience
+
+	measure 'Negative review rate' = DIVIDE(CALCULATE(COUNT(fact_orders[review_score]), fact_orders[review_score] <= 2), COUNT(fact_orders[review_score]))
+		formatString: 0.0%
+		displayFolder: Experience
+
+	column order_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: order_id
+
+	column customer_unique_id
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+	column purchase_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: purchase_date
+
+	column purchase_month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: purchase_month
+
+	column order_status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: order_status
+
+	column customer_state
+		dataType: string
+		summarizeBy: none
+		sourceColumn: customer_state
+
+	column seller_state
+		dataType: string
+		summarizeBy: none
+		sourceColumn: seller_state
+
+	column main_category
+		dataType: string
+		summarizeBy: none
+		sourceColumn: main_category
+
+	column payment_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: payment_type
+
+	column items
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: items
+
+	column order_value
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: order_value
+
+	column freight_value
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+	column delivery_days
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: delivery_days
+
+	column delay_days
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: delay_days
+
+	column review_score
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: review_score
+
+	column distance_km
+		dataType: double
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: distance_km
+
+	column is_delivered
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: is_delivered
+
+	column is_late
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: is_late
+
+	column delay_bucket
+		dataType: string
+		summarizeBy: none
+		sourceColumn: delay_bucket
+
+	partition fact_orders = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "fact_orders.csv"), [Delimiter=",", Columns=19, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"order_id", type text}, {"customer_unique_id", type text}, {"purchase_date", type datetime}, {"purchase_month", type datetime}, {"order_status", type text}, {"customer_state", type text}, {"seller_state", type text}, {"main_category", type text}, {"payment_type", type text}, {"items", Int64.Type}, {"order_value", type number}, {"freight_value", type number}, {"delivery_days", type number}, {"delay_days", type number}, {"review_score", type number}, {"distance_km", type number}, {"is_delivered", Int64.Type}, {"is_late", type number}, {"delay_bucket", type text}}, "en-US")
+				in
+				    Typed
+

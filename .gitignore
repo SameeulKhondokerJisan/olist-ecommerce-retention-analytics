@@ -1,0 +1,15 @@
+# data: raw downloads and local databases are rebuilt by `make data pipeline`
+data/raw/
+data/processed/
+*.duckdb
+*.part
+# python / tooling
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+~$*.xlsx
+hyperd*.log
+.~*.twbr

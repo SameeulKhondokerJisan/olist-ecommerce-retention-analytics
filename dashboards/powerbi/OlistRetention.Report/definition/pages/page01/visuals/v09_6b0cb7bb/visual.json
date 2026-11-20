@@ -1,0 +1,77 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "v09_6b0cb7bb",
+  "position": {
+    "x": 10,
+    "y": 410,
+    "z": 9000,
+    "width": 620,
+    "height": 300,
+    "tabOrder": 9000
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_orders"
+                    }
+                  },
+                  "Property": "delay_bucket"
+                }
+              },
+              "queryRef": "fact_orders.delay_bucket",
+              "nativeQueryRef": "delay_bucket"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_orders"
+                    }
+                  },
+                  "Property": "Avg review"
+                }
+              },
+              "queryRef": "fact_orders.Avg review",
+              "nativeQueryRef": "Avg review"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average review by delivery delay'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

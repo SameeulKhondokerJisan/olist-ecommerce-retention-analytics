@@ -1,0 +1,115 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "v07_ba3e0555",
+  "position": {
+    "x": 790,
+    "y": 410,
+    "z": 7000,
+    "width": 480,
+    "height": 300,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "seller_scorecard"
+                    }
+                  },
+                  "Property": "seller_id"
+                }
+              },
+              "queryRef": "seller_scorecard.seller_id",
+              "nativeQueryRef": "seller_id"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "seller_scorecard"
+                    }
+                  },
+                  "Property": "seller_state"
+                }
+              },
+              "queryRef": "seller_scorecard.seller_state",
+              "nativeQueryRef": "seller_state"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "seller_scorecard"
+                    }
+                  },
+                  "Property": "delivered_orders"
+                }
+              },
+              "queryRef": "seller_scorecard.delivered_orders",
+              "nativeQueryRef": "delivered_orders"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "seller_scorecard"
+                    }
+                  },
+                  "Property": "late_rate"
+                }
+              },
+              "queryRef": "seller_scorecard.late_rate",
+              "nativeQueryRef": "late_rate"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "seller_scorecard"
+                    }
+                  },
+                  "Property": "avg_review"
+                }
+              },
+              "queryRef": "seller_scorecard.avg_review",
+              "nativeQueryRef": "avg_review"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Seller scorecard (30+ delivered orders)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+relationship 64e10e19-ead6-496a-9503-d997303a09b8
+	fromColumn: fact_orders.customer_unique_id
+	toColumn: dim_customer.customer_unique_id
+
+relationship b5b6617b-7eac-4243-bbc0-e9b058740c37
+	fromColumn: fact_orders.purchase_date
+	toColumn: dim_date.date

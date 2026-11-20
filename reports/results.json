@@ -1,0 +1,425 @@
+{
+  "generated_at": "2026-11-20T09:45:06+00:00",
+  "settings": {
+    "cutoff": "2018-08-31",
+    "calibration_end": "2018-02-28",
+    "holdout_weeks": 26,
+    "repeat_window_days": 180,
+    "currency": "R$"
+  },
+  "assumptions": {
+    "contribution_margin": 0.15,
+    "target_review": 4.2,
+    "voucher_cost": 10.0
+  },
+  "row_counts": {
+    "raw_orders": 99441,
+    "raw_customers": 99441,
+    "raw_items": 112650,
+    "raw_payments": 103886,
+    "raw_reviews": 99224,
+    "raw_products": 32951,
+    "raw_sellers": 3095,
+    "raw_geolocation": 1000163,
+    "fact_orders": 98198,
+    "fact_order_items": 112100,
+    "dim_customer": 94983
+  },
+  "quality": {
+    "hard_checks_passed": true,
+    "soft_findings": [
+      {
+        "rule": "orders: delivered status without delivery date",
+        "severity": "soft",
+        "failures": 8
+      },
+      {
+        "rule": "orders: handed to carrier before approval",
+        "severity": "soft",
+        "failures": 1359
+      },
+      {
+        "rule": "orders: no items (mostly canceled/unavailable)",
+        "severity": "soft",
+        "failures": 775
+      },
+      {
+        "rule": "orders: no payment record",
+        "severity": "soft",
+        "failures": 1
+      },
+      {
+        "rule": "payments: total differs from items + freight by > $1",
+        "severity": "soft",
+        "failures": 312
+      },
+      {
+        "rule": "reviews: orders with more than one review (latest kept)",
+        "severity": "soft",
+        "failures": 547
+      },
+      {
+        "rule": "reviews: review_id reused across orders",
+        "severity": "soft",
+        "failures": 789
+      },
+      {
+        "rule": "products: missing category (set to unknown)",
+        "severity": "soft",
+        "failures": 610
+      },
+      {
+        "rule": "geolocation: points outside Brazil (dropped)",
+        "severity": "soft",
+        "failures": 42
+      },
+      {
+        "rule": "customers: zip prefix with no geolocation",
+        "severity": "soft",
+        "failures": 280
+      },
+      {
+        "rule": "customers: people with more than one customer_id",
+        "severity": "soft",
+        "failures": 2997
+      }
+    ]
+  },
+  "business": {
+    "orders": 98198,
+    "customers": 94983,
+    "gmv": 15738198.95,
+    "avg_order_value": 160.27005590745227,
+    "first_month": "2016-09",
+    "last_month": "2018-08",
+    "customers_last_12m": 73469,
+    "orders_last_12m": 75491,
+    "gmv_last_12m": 12134206.59,
+    "avg_order_value_last_12m": 160.73712879681023,
+    "share_customers_one_order": 0.9696156154259183,
+    "late_rate_delivered": 0.06773090079817559,
+    "avg_review": 4.116399564976505,
+    "month1_retention_avg": 0.004831032842699375
+  },
+  "review_vs_lateness": {
+    "late_orders": 6381,
+    "ontime_orders": 89443,
+    "late_share": 0.06659083319418935,
+    "mean_review_late": 2.270490518727472,
+    "mean_review_ontime": 4.290386055923885,
+    "negative_rate_late": 0.6241968343519825,
+    "negative_rate_ontime": 0.09267354628087161,
+    "mean_diff": -2.0198955371964127,
+    "mean_diff_ci": [
+      -2.0575090240574596,
+      -1.9818648117337339
+    ],
+    "mann_whitney_u": 103305546.0,
+    "p_value": 0.0,
+    "rank_biserial": 0.6379916974646743
+  },
+  "review_by_delay_bucket": [
+    {
+      "delay_bucket": "On time",
+      "orders": 89443,
+      "avg_review": 4.290386055923885,
+      "negative_rate": 0.09267354628087161
+    },
+    {
+      "delay_bucket": "1-3 days late",
+      "orders": 1852,
+      "avg_review": 3.291036717062635,
+      "negative_rate": 0.3212742980561555
+    },
+    {
+      "delay_bucket": "4-7 days late",
+      "orders": 1748,
+      "avg_review": 2.102974828375286,
+      "negative_rate": 0.6767734553775744
+    },
+    {
+      "delay_bucket": "8-14 days late",
+      "orders": 1446,
+      "avg_review": 1.6708160442600277,
+      "negative_rate": 0.8015214384508991
+    },
+    {
+      "delay_bucket": "15+ days late",
+      "orders": 1335,
+      "avg_review": 1.7235955056179775,
+      "negative_rate": 0.7835205992509363
+    }
+  ],
+  "ordinal_model": {
+    "n": 95824,
+    "coef_is_late": -2.6836771148413336,
+    "se_is_late": 0.02650774141967802,
+    "odds_ratio_higher_score": 0.0683115025220964,
+    "or_ci": [
+      0.06485298836954825,
+      0.07195445412994295
+    ],
+    "p_value": 0.0,
+    "p_negative_if_late": 0.5993888515830704,
+    "p_negative_if_ontime": 0.09765393670440731,
+    "controls": [
+      "log_distance_km",
+      "log_order_value",
+      "freight_ratio",
+      "multi_item",
+      "multi_seller",
+      "cat_auto",
+      "cat_bed_bath_table",
+      "cat_computers_accessories",
+      "cat_cool_stuff",
+      "cat_furniture_decor",
+      "cat_garden_tools",
+      "cat_health_beauty",
+      "cat_housewares",
+      "cat_sports_leisure",
+      "cat_telephony",
+      "cat_toys",
+      "cat_watches_gifts"
+    ]
+  },
+  "repeat_vs_first_delivery": {
+    "customers": 56199,
+    "repeat_rate_overall": 0.031690955355077495,
+    "repeat_rate_late": 0.027906976744186046,
+    "repeat_rate_ontime": 0.03197080012994707,
+    "diff": -0.0040638233857610215,
+    "diff_ci": [
+      -0.009467628963195487,
+      0.0013399821916734453
+    ],
+    "z_p_value": 0.1637444885657653,
+    "logit_odds_ratio": 0.8803197635808535,
+    "logit_or_ci": [
+      0.7182791712540041,
+      1.078915994178259
+    ],
+    "logit_p_value": 0.21938588154875072
+  },
+  "clv": {
+    "holdout": {
+      "calibration_customers": 56319,
+      "holdout_weeks": 26,
+      "actual_purchases": 712.0,
+      "predicted_purchases": 735.6733213222803,
+      "error_pct": 0.03324904680095564,
+      "params": {
+        "r": 0.01648867035868438,
+        "alpha": 9.35675001787597,
+        "a": 1.3248681938101672,
+        "b": 0.22080072552666072,
+        "loglik": -8686.209671444174
+      }
+    },
+    "holdout_by_frequency": [
+      {
+        "x": 0,
+        "customers": 55307,
+        "actual": 0.011589853002332435,
+        "predicted": 0.011963672243934527
+      },
+      {
+        "x": 1,
+        "customers": 947,
+        "actual": 0.048574445617740235,
+        "predicted": 0.04858207397385026
+      },
+      {
+        "x": 2,
+        "customers": 49,
+        "actual": 0.1836734693877551,
+        "predicted": 0.2485778657166948
+      },
+      {
+        "x": 3,
+        "customers": 16,
+        "actual": 1.0,
+        "predicted": 0.988185065852456
+      }
+    ],
+    "bgnbd": {
+      "r": 0.015871438459137518,
+      "alpha": 9.632734537744025,
+      "a": 2.0160327877531308,
+      "b": 0.3495943771165122
+    },
+    "gamma_gamma": {
+      "p": 4.155125668952662,
+      "q": 3.5069731763469005,
+      "v": 91.83459880013625
+    },
+    "customers_scored": 94983,
+    "expected_repeat_purchases_52w": 1559.353472029554,
+    "expected_repeat_gmv_52w": 237232.88727371139,
+    "mean_clv_12m_gmv": 2.4976352323438022
+  },
+  "rfm_segments": [
+    {
+      "segment": "At-risk high-value",
+      "customers": 13985,
+      "gmv": 4324142.87,
+      "avg_recency_days": 396.9548087236325,
+      "avg_orders": 1.0,
+      "gmv_share": 0.2747546198734513
+    },
+    {
+      "segment": "Champions (recent repeat)",
+      "customers": 1240,
+      "gmv": 398432.69,
+      "avg_recency_days": 90.95241935483871,
+      "avg_orders": 2.1556451612903227,
+      "gmv_share": 0.025316282458101726
+    },
+    {
+      "segment": "Hibernating low-value",
+      "customers": 22972,
+      "gmv": 1672404.95,
+      "avg_recency_days": 398.16363398920424,
+      "avg_orders": 1.0,
+      "gmv_share": 0.10626406206410297
+    },
+    {
+      "segment": "Loyal repeaters",
+      "customers": 1646,
+      "gmv": 491619.35,
+      "avg_recency_days": 323.39611178614825,
+      "avg_orders": 2.0826245443499394,
+      "gmv_share": 0.031237332274287967
+    },
+    {
+      "segment": "Needs attention",
+      "customers": 18387,
+      "gmv": 2796717.5,
+      "avg_recency_days": 222.2445749714472,
+      "avg_orders": 1.0,
+      "gmv_share": 0.17770251277704174
+    },
+    {
+      "segment": "New high-value",
+      "customers": 14647,
+      "gmv": 4439272.46,
+      "avg_recency_days": 93.68601078719192,
+      "avg_orders": 1.0,
+      "gmv_share": 0.28206991626573635
+    },
+    {
+      "segment": "New low-value",
+      "customers": 22106,
+      "gmv": 1615609.13,
+      "avg_recency_days": 91.64593323079707,
+      "avg_orders": 1.0,
+      "gmv_share": 0.10265527428727796
+    }
+  ],
+  "kmeans": {
+    "k_selection": [
+      {
+        "k": 3,
+        "silhouette": 0.4092309423660726,
+        "inertia": 131261.38558949553
+      },
+      {
+        "k": 4,
+        "silhouette": 0.3952534509142526,
+        "inertia": 84356.74483753945
+      },
+      {
+        "k": 5,
+        "silhouette": 0.35379197208587737,
+        "inertia": 69556.35903898274
+      },
+      {
+        "k": 6,
+        "silhouette": 0.3526915969096747,
+        "inertia": 59463.76933324944
+      }
+    ],
+    "clusters": [
+      {
+        "cluster": 0,
+        "customers": 2886,
+        "avg_recency_days": 223.524255024255,
+        "avg_orders": 2.113998613998614,
+        "avg_monetary": 308.4033402633403
+      },
+      {
+        "cluster": 1,
+        "customers": 71044,
+        "avg_recency_days": 296.05286864478353,
+        "avg_orders": 1.0,
+        "avg_monetary": 156.98862282529137
+      },
+      {
+        "cluster": 2,
+        "customers": 21053,
+        "avg_recency_days": 54.614686742981995,
+        "avg_orders": 1.0,
+        "avg_monetary": 175.51167007077376
+      }
+    ]
+  },
+  "worst_states_late_rate": [
+    {
+      "customer_state": "CE",
+      "delivered_orders": 1279,
+      "late_rate": 0.1376075058639562,
+      "avg_delivery_days": 21.200156372165754,
+      "avg_promised_days": 32.004691164972634,
+      "avg_review": 3.9442262372348784,
+      "avg_distance_km": 2186.3137250718705,
+      "avg_freight_ratio": 0.4273367886958366
+    },
+    {
+      "customer_state": "BA",
+      "delivered_orders": 3256,
+      "late_rate": 0.12162162162162163,
+      "avg_delivery_days": 19.278562653562652,
+      "avg_promised_days": 30.073095823095823,
+      "avg_review": 3.930628677609167,
+      "avg_distance_km": 1344.1537756349767,
+      "avg_freight_ratio": 0.3854765171493146
+    },
+    {
+      "customer_state": "RJ",
+      "delivered_orders": 12350,
+      "late_rate": 0.12105263157894737,
+      "avg_delivery_days": 15.237004048582996,
+      "avg_promised_days": 26.998218623481783,
+      "avg_review": 3.965440995823438,
+      "avg_distance_km": 488.5495272776338,
+      "avg_freight_ratio": 0.31589549810378964
+    },
+    {
+      "customer_state": "ES",
+      "delivered_orders": 1995,
+      "late_rate": 0.10726817042606517,
+      "avg_delivery_days": 15.723809523809523,
+      "avg_promised_days": 26.220050125313282,
+      "avg_review": 4.078720162519045,
+      "avg_distance_km": 802.241532884243,
+      "avg_freight_ratio": 0.34659867737245703
+    },
+    {
+      "customer_state": "PE",
+      "delivered_orders": 1593,
+      "late_rate": 0.096045197740113,
+      "avg_delivery_days": 18.3954802259887,
+      "avg_promised_days": 31.689265536723163,
+      "avg_review": 4.082963901203294,
+      "avg_distance_km": 1968.9193177187651,
+      "avg_freight_ratio": 0.4346613998468591
+    }
+  ],
+  "figures": [
+    "reports/figures/01_monthly_gmv_late_rate.png",
+    "reports/figures/02_cohort_retention.png",
+    "reports/figures/03_review_by_delay.png",
+    "reports/figures/04_late_rate_by_state.png",
+    "reports/figures/05_rfm_segments.png",
+    "reports/figures/06_clv_holdout.png"
+  ]
+}

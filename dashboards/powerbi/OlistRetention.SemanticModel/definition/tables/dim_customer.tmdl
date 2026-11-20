@@ -1,0 +1,97 @@
+table dim_customer
+
+	measure 'Customers in segment' = COUNTROWS(dim_customer)
+		formatString: #,0
+		displayFolder: Customers
+
+	measure 'Repeat customer rate' = DIVIDE(CALCULATE(COUNTROWS(dim_customer), dim_customer[is_repeat] = 1), COUNTROWS(dim_customer))
+		formatString: 0.0%
+		displayFolder: Customers
+
+	measure 'Expected repeat GMV next 12m (R$)' = SUM(dim_customer[clv_12m_gmv])
+		formatString: #,0
+		displayFolder: Customers
+
+	measure 'At-risk high-value customers' = CALCULATE(COUNTROWS(dim_customer), dim_customer[segment] = "At-risk high-value")
+		formatString: #,0
+		displayFolder: Customers
+
+	column customer_unique_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: customer_unique_id
+
+	column state
+		dataType: string
+		summarizeBy: none
+		sourceColumn: state
+
+	column cohort_month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: cohort_month
+
+	column orders
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: orders
+
+	column lifetime_value
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: lifetime_value
+
+	column is_repeat
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: is_repeat
+
+	column recency_days
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: recency_days
+
+	column segment
+		dataType: string
+		summarizeBy: none
+		sourceColumn: segment
+
+	column cluster
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: cluster
+
+	column exp_purchases_52w
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: exp_purchases_52w
+
+	column prob_alive
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: prob_alive
+
+	column clv_12m_gmv
+		dataType: double
+		formatString: #,0.00
+		summarizeBy: sum
+		sourceColumn: clv_12m_gmv
+
+	column first_purchase_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: first_purchase_date
+
+	partition dim_customer = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "dim_customer.csv"), [Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"customer_unique_id", type text}, {"state", type text}, {"cohort_month", type datetime}, {"orders", Int64.Type}, {"lifetime_value", type number}, {"is_repeat", Int64.Type}, {"recency_days", Int64.Type}, {"segment", type text}, {"cluster", Int64.Type}, {"exp_purchases_52w", type number}, {"prob_alive", type number}, {"clv_12m_gmv", type number}, {"first_purchase_date", type datetime}}, "en-US")
+				in
+				    Typed
+

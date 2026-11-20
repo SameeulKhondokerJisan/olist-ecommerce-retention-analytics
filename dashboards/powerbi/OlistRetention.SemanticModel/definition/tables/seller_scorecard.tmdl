@@ -1,0 +1,49 @@
+table seller_scorecard
+
+	column seller_id
+		dataType: string
+		summarizeBy: none
+		sourceColumn: seller_id
+
+	column seller_state
+		dataType: string
+		summarizeBy: none
+		sourceColumn: seller_state
+
+	column delivered_orders
+		dataType: int64
+		summarizeBy: sum
+		sourceColumn: delivered_orders
+
+	column item_revenue
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: item_revenue
+
+	column late_rate
+		dataType: double
+		formatString: 0.0%
+		summarizeBy: sum
+		sourceColumn: late_rate
+
+	column avg_review
+		dataType: double
+		formatString: 0.00
+		summarizeBy: sum
+		sourceColumn: avg_review
+
+	column negative_review_rate
+		dataType: double
+		summarizeBy: sum
+		sourceColumn: negative_review_rate
+
+	partition seller_scorecard = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "seller_scorecard.csv"), [Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"seller_id", type text}, {"seller_state", type text}, {"delivered_orders", Int64.Type}, {"item_revenue", type number}, {"late_rate", type number}, {"avg_review", type number}, {"negative_review_rate", type number}}, "en-US")
+				in
+				    Typed
+
