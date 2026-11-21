@@ -98,3 +98,7 @@ Olist, *Brazilian E-Commerce Public Dataset by Olist*, downloaded from Olist's r
 * Orders after 2018-08-31 are excluded because the last weeks of the source are incomplete.
 * Observational data: lateness effects are associations with controls, not randomized estimates.
 * Review scores exist only for reviewed orders; customers who never review are not represented in review statistics.
+
+## License
+
+Code, SQL and documentation are released under the [MIT License](LICENSE). The data is not covered by this license: it belongs to the publishers listed under Data and remains under their terms.
